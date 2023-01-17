@@ -9,14 +9,21 @@
 <div class="container">
 
     <h1>Dettagli della pizza</h1>
+
     <p class="fw-bolder">Nome Pizza:</p>
     <p class="fw-light">@Model.Name</p>
+
     <p class="fw-bolder">Descrizione Pizza:</p>
     <p class="fw-light">@Model.Description</p>
+
     <p class="fw-bolder">Foto Pizza:</p>
     <img src="@Model.Image" class="img-fluid" alt="Immagine Pizza" width="500" height="500">
+
     <p class="fw-bolder">Prezzo Pizza:</p>
     <p class="fw-light">@Model.Price.ToString("F") €</p>
+
+    <p class="fw-bolder">Categoria Pizza:</p>
+    <p class="fw-light">@Model.Categoria.Name</p>
 
     <a class="btn btn-link btn-lg" asp-controller="Pizza" asp-action="Index" role="button">Ritorna al menù</a>
 </div>

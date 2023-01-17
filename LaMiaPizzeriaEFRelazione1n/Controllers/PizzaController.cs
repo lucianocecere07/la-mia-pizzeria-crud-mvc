@@ -1,7 +1,8 @@
 ﻿using LaMiaPizzeriaEFRelazione1n.DataBase;
 using LaMiaPizzeriaEFRelazione1n.Models;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 
 namespace LaMiaPizzeriaEFRelazione1n.Controllers
@@ -25,6 +26,7 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
             {
                 Pizza pizzaScelta = db.Pizza
                     .Where(pizza => pizza.Id == idScelto)
+                    .Include(pizza => pizza.Categoria)
                     .FirstOrDefault();
 
                 if (pizzaScelta != null)
