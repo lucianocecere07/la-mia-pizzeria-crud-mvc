@@ -3,6 +3,6 @@
     public class PizzaCategoria
     {
         public Pizza Pizza { get; set; }
-        public List<Categoria> Categoria { get; set; }
+        public List<Categoria>? Categoria { get; set; }
     }
 }
