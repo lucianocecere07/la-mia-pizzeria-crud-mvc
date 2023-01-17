@@ -38,7 +38,18 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
         [HttpGet]
         public IActionResult Aggiungi()
         {
-            return View();
+            using (PizzeriaContext db = new PizzeriaContext())
+            {
+                List<Categoria> categoriaInDB = db.Categoria.ToList<Categoria>();
+
+                PizzaCategoria modelloDellaView = new PizzaCategoria();
+
+                modelloDellaView.Pizza = new Pizza();
+                modelloDellaView.Categoria = categoriaInDB;
+
+                return View(modelloDellaView);
+            }
+
         }
 
         [HttpPost]
@@ -47,6 +58,13 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
         {
             if (!ModelState.IsValid)
             {
+                using (PizzeriaContext db = new PizzeriaContext())
+                {
+                    List<Categoria> categoriaInDB = db.Categoria.ToList();
+
+                    NuovaPizza.Categoria = categoriaInDB;
+                }
+
                 return View("Aggiungi", NuovaPizza);
             }
 
