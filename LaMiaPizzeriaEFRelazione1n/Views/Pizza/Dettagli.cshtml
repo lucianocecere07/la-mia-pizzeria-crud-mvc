@@ -1,0 +1,22 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model Pizza
+
+<div class="container">
+
+    <h1>Dettagli della pizza</h1>
+    <p class="fw-bolder">Nome Pizza:</p>
+    <p class="fw-light">@Model.Name</p>
+    <p class="fw-bolder">Descrizione Pizza:</p>
+    <p class="fw-light">@Model.Description</p>
+    <p class="fw-bolder">Foto Pizza:</p>
+    <img src="@Model.Image" class="img-fluid" alt="Immagine Pizza" width="500" height="500">
+    <p class="fw-bolder">Prezzo Pizza:</p>
+    <p class="fw-light">@Model.Price.ToString("F") €</p>
+
+    <a class="btn btn-link btn-lg" asp-controller="Pizza" asp-action="Index" role="button">Ritorna al menù</a>
+</div>
