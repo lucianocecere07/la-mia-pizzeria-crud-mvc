@@ -2,7 +2,8 @@
 using LaMiaPizzeriaEFRelazione1n.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
+using Microsoft.Extensions.Hosting;
+using System.Diagnostics;
 
 
 namespace LaMiaPizzeriaEFRelazione1n.Controllers
@@ -20,12 +21,12 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
             }
         }
 
-        public IActionResult Dettagli(int idScelto)
+        public IActionResult Dettagli(int id)
         {
             using (PizzeriaContext db = new PizzeriaContext())
             {
                 Pizza pizzaScelta = db.Pizza
-                    .Where(pizza => pizza.Id == idScelto)
+                    .Where(pizza => pizza.Id == id)
                     .Include(pizza => pizza.Categoria)
                     .FirstOrDefault();
 
@@ -33,8 +34,9 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
                 {
                     return View(pizzaScelta);
                 }
+
+                return NotFound("Questa pizza non esiste");
             }
-            return NotFound("Questa pizza non esiste");
         }
 
 
@@ -51,7 +53,7 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
                 modelloDellaView.Pizza = new Pizza();
                 modelloDellaView.Categoria = categoriaInDB;
 
-                return View(modelloDellaView);
+                return View("Aggiungi", modelloDellaView);
             }
 
         }
@@ -84,12 +86,12 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
 
         //MODIFICA
         [HttpGet]
-        public IActionResult Modifica(int idScelto)
+        public IActionResult Modifica(int id)
         {
             using (PizzeriaContext db = new PizzeriaContext())
             {
                 Pizza pizzaScelta = db.Pizza
-                      .Where(pizza => pizza.Id == idScelto)
+                      .Where(pizza => pizza.Id == id)
                       .FirstOrDefault();
 
                 if (pizzaScelta != null)
@@ -108,7 +110,7 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Modifica(PizzaCategoria NuovaPizza)
+        public IActionResult Modifica(PizzaCategoria PizzaModificata)
         {
             if (!ModelState.IsValid)
             {
@@ -116,24 +118,25 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
                 {
                     List<Categoria> categoriaInDB = db.Categoria.ToList();
 
-                    NuovaPizza.Categoria = categoriaInDB;
+                    PizzaModificata.Categoria = categoriaInDB;
                 }
 
-                return View("Modifica", NuovaPizza);
+                return View("Modifica", PizzaModificata);
             }
 
             using (PizzeriaContext db = new PizzeriaContext())
             {
                 Pizza pizzaScelta = db.Pizza
-                      .Where(pizza => pizza.Id == NuovaPizza.Pizza.Id)
+                      .Where(pizza => pizza.Id == PizzaModificata.Pizza.Id)
                       .FirstOrDefault();
 
                 if (pizzaScelta != null)
                 {
-                    pizzaScelta.Name = NuovaPizza.Pizza.Name;
-                    pizzaScelta.Description = NuovaPizza.Pizza.Description;
-                    pizzaScelta.Image = NuovaPizza.Pizza.Image;
-                    pizzaScelta.Price = NuovaPizza.Pizza.Price;
+                    pizzaScelta.Name = PizzaModificata.Pizza.Name;
+                    pizzaScelta.Description = PizzaModificata.Pizza.Description;
+                    pizzaScelta.Image = PizzaModificata.Pizza.Image;
+                    pizzaScelta.Price = PizzaModificata.Pizza.Price;
+                    pizzaScelta.CategoriaId = PizzaModificata.Pizza.CategoriaId; 
 
                     db.SaveChanges();
 

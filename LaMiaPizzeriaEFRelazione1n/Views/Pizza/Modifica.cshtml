@@ -33,7 +33,7 @@
                 <option value=""></option>
                 @foreach (Categoria categoria in Model.Categoria)
                 {
-                    <option value="@categoria.Id" selected>@categoria.Name</option>
+                    <option value="@categoria.Id" >@categoria.Name</option>
                 }
             </select>
             <span asp-validation-for="Pizza.CategoriaId" class="text-danger"></span>
@@ -51,6 +51,6 @@
             <span asp-validation-for="Pizza.Price" class="text-danger"></span>
         </div>
 
-        <button type="submit" class="btn btn-link btn-lg" value="salva">Salva modifiche</button>
+        <button type="submit" class="btn btn-link btn-lg">Salva modifiche</button>
     </form>
 </div>

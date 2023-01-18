@@ -41,13 +41,13 @@
                             <td><img src="@pizza.Image" class="img-fluid" alt="@pizza.Name"></td>
                             <td>@pizza.Price.ToString("F") €</td>
                             <td>
-                                <a class="btn btn-link" href="@Url.Action("Dettagli", "Pizza", new { idScelto = pizza.Id } )" role="button">Dettagli</a>
+                                <a class="btn btn-primary" href="@Url.Action("Dettagli", "Pizza", new { id = pizza.Id } )" role="button">Dettagli</a>
                             </td>
-                            <td><a class="btn btn-link" href="@Url.Action("Modifica", "Pizza", new { idScelto = pizza.Id } )" role="button">Modifica</a></td>
+                            <td><a class="btn btn-warning" href="@Url.Action("Modifica", "Pizza", new { id = pizza.Id } )" role="button">Modifica</a></td>
                             <td>
                                 <form asp-controller="Pizza" asp-action="Elimina" asp-route-id="@pizza.Id">
                                     @Html.AntiForgeryToken()
-                                    <button class="btn btn-link" type="submit">Elimina</button>
+                                    <button class="btn btn-danger type="submit">Elimina</button>
                                 </form>
                             </td>
                         </tr>

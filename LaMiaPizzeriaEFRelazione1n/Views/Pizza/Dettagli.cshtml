@@ -23,7 +23,10 @@
     <p class="fw-light">@Model.Price.ToString("F") €</p>
 
     <p class="fw-bolder">Categoria Pizza:</p>
-    <p class="fw-light">@Model.Categoria.Name</p>
+    @if(Model.Categoria != null)
+    {
+        <p class="fw-light">@Model.Categoria.Name</p>
+    }
 
     <a class="btn btn-link btn-lg" asp-controller="Pizza" asp-action="Index" role="button">Ritorna al menù</a>
 </div>
