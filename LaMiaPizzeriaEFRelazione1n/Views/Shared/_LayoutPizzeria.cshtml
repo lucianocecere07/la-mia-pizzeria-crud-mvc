@@ -12,20 +12,25 @@
 
 <body>
 
-    <nav class="navbar bg-body-tertiary py-3">
-        <div class="container-fluid">
+    <nav class="navbar bg-body-tertiary pt-3">
+            
+        <div class="container-fluid justify-content-center">
+            <img class="img-fluid" src="https://www.welovesolo.com/wp-content/uploads/2016/02/mdjnvwmnq2q.jpg" width="200" height="200" />
+        </div>
+
+        <div class="container-fluid justify-content-center">
             <span class="navbar-brand mb-0 h1 fs-2 fw-bold">La Mia Pizzeria</span>
         </div>
 
         <ul class="navbar-nav flex-grow-1">
             <li class="nav-item">
-                <a class="nav-link text-dark fs-4 mx-2" asp-area="" asp-controller="Pizza" asp-action="Index">Pizze</a>
+                <a class="nav-link text-dark fs-4 mx-2" asp-area="" asp-controller="Pizza" asp-action="Index"><u>Menù delle Pizze</u></a>
             </li>
         </ul>
 
     </nav>
 
-    <div>
+    <div style="background-color: beige">
         @RenderBody()
     </div>
 
