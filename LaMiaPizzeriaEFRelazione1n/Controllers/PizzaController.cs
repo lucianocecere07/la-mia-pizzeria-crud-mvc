@@ -31,6 +31,7 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
                 Pizza pizzaScelta = db.Pizza
                     .Where(pizza => pizza.Id == id)
                     .Include(pizza => pizza.Categoria)
+                    .Include(pizza => pizza.Ingredienti)
                     .FirstOrDefault();
 
                 if (pizzaScelta != null)
@@ -89,9 +90,9 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
 
                     foreach (Ingrediente ingrediente in ingredientiInDB)
                     {
-                        SelectListItem opzioneSelectListItem = new SelectListItem() { Text = ingrediente.Name, Value = ingrediente.Id.ToString() };
+                        SelectListItem ingredienteInSelectList = new SelectListItem() { Text = ingrediente.Name, Value = ingrediente.Id.ToString() };
 
-                        listaPerSelectMultipla.Add(opzioneSelectListItem);
+                        listaPerSelectMultipla.Add(ingredienteInSelectList);
                     }
 
                     NuovaPizza.Categoria = categoriaInDB;
@@ -113,7 +114,7 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
 
                         Ingrediente ingrediente = db.Ingredienti
                             .Where(ingredienteInDb => ingredienteInDb.Id == IngredientiIdInt)
-                        .FirstOrDefault();
+                            .FirstOrDefault();
 
                         NuovaPizza.Pizza.Ingredienti.Add(ingrediente);
                     }
@@ -134,6 +135,7 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
             {
                 Pizza pizzaScelta = db.Pizza
                       .Where(pizza => pizza.Id == id)
+                      .Include(pizza => pizza.Ingredienti)
                       .FirstOrDefault();
 
                 if (pizzaScelta != null)
@@ -144,10 +146,24 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
                     modelloDellaView.Pizza = pizzaScelta;
                     modelloDellaView.Categoria = categoriaInDB;
 
+
+                    List<Ingrediente> ingredientiInDB = db.Ingredienti.ToList();
+                    List<SelectListItem> listaPerSelectMultipla = new List<SelectListItem>();
+
+                    foreach (Ingrediente ingrediente in ingredientiInDB)
+                    {
+                        bool GiaPresente = pizzaScelta.Ingredienti.Any(IngredientiScelti => IngredientiScelti.Id == ingrediente.Id);
+
+                        SelectListItem ingredienteInSelectList = new SelectListItem() { Text = ingrediente.Name, Value = ingrediente.Id.ToString(), Selected = GiaPresente };
+                        listaPerSelectMultipla.Add(ingredienteInSelectList);
+                    }
+                    
+                    modelloDellaView.Ingredienti = listaPerSelectMultipla;
+
                     return View("Modifica", modelloDellaView);
                 }
+                return NotFound("Questa pizza non è stata trovata");
             }
-            return NotFound("Questa pizza non è stata trovata");
         }
 
         [HttpPost]
@@ -170,6 +186,7 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
             {
                 Pizza pizzaScelta = db.Pizza
                       .Where(pizza => pizza.Id == PizzaModificata.Pizza.Id)
+                      .Include(pizza => pizza.Ingredienti)
                       .FirstOrDefault();
 
                 if (pizzaScelta != null)
@@ -178,7 +195,25 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
                     pizzaScelta.Description = PizzaModificata.Pizza.Description;
                     pizzaScelta.Image = PizzaModificata.Pizza.Image;
                     pizzaScelta.Price = PizzaModificata.Pizza.Price;
-                    pizzaScelta.CategoriaId = PizzaModificata.Pizza.CategoriaId; 
+                    pizzaScelta.CategoriaId = PizzaModificata.Pizza.CategoriaId;
+
+
+                    pizzaScelta.Ingredienti.Clear();
+
+                    if (PizzaModificata.IngredientiSelect != null)
+                    {
+
+                        foreach (string ingredienteId in PizzaModificata.IngredientiSelect)
+                        {
+                            int IngredientiIdInt = int.Parse(ingredienteId);
+
+                            Ingrediente ingrediente = db.Ingredienti
+                            .Where(ingredienteInDb => ingredienteInDb.Id == IngredientiIdInt)
+                            .FirstOrDefault();
+
+                            pizzaScelta.Ingredienti.Add(ingrediente);
+                        }
+                    }
 
                     db.SaveChanges();
 

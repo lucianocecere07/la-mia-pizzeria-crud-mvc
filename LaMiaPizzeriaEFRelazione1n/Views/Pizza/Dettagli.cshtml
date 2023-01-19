@@ -28,5 +28,14 @@
         <p class="fw-light">@Model.Categoria.Name</p>
     }
 
+    <p class="fw-bolder">Ingredienti Pizza:</p>
+    @if (Model.Ingredienti != null)
+    {
+        @foreach (Ingrediente ingrediente in Model.Ingredienti)
+        {
+            <p class="fw-light">@ingrediente.Name</p>
+        }
+    }
+
     <a class="btn btn-link btn-lg" asp-controller="Pizza" asp-action="Index" role="button">Ritorna al menù</a>
 </div>

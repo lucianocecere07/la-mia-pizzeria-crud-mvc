@@ -38,7 +38,7 @@
                             <th scope="row">@pizza.Id</th>
                             <td>@pizza.Name</td>
                             <td>@pizza.Description</td>
-                            <td><img src="@pizza.Image" class="img-fluid" alt="@pizza.Name"></td>
+                            <td><img src="@pizza.Image" class="img-fluid" alt="@pizza.Name" width="200px" height="250px"></td>
                             <td>@pizza.Price.ToString("F") €</td>
                             <td>
                                 <a class="btn btn-primary" href="@Url.Action("Dettagli", "Pizza", new { id = pizza.Id } )" role="button">Dettagli</a>
