@@ -1,4 +1,5 @@
-﻿using LaMiaPizzeriaEFRelazione1n.Models;
+﻿using Azure;
+using LaMiaPizzeriaEFRelazione1n.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LaMiaPizzeriaEFRelazione1n.DataBase
@@ -7,6 +8,7 @@ namespace LaMiaPizzeriaEFRelazione1n.DataBase
     {
         public DbSet<Pizza> Pizza { get; set; }
         public DbSet<Categoria> Categoria { get; set; }
+        public DbSet<Ingrediente> Ingredienti { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

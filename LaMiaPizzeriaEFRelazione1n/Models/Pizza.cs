@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using LaMiaPizzeriaEFRelazione1n.Validation;
+using Azure;
 
 namespace LaMiaPizzeriaEFRelazione1n.Models
 {
@@ -34,6 +35,7 @@ namespace LaMiaPizzeriaEFRelazione1n.Models
         public int? CategoriaId { get; set; }
         public Categoria? Categoria { get; set; }
 
+        public List<Ingrediente>? Ingredienti { get; set; }
 
         public Pizza()
         {
