@@ -1,8 +1,11 @@
-﻿using LaMiaPizzeriaEFRelazione1n.DataBase;
+﻿using Azure;
+using LaMiaPizzeriaEFRelazione1n.DataBase;
 using LaMiaPizzeriaEFRelazione1n.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using Microsoft.SqlServer.Server;
 using System.Diagnostics;
 
 
@@ -48,10 +51,22 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
             {
                 List<Categoria> categoriaInDB = db.Categoria.ToList<Categoria>();
 
+                List<Ingrediente> ingredientiInDB = db.Ingredienti.ToList();
+
+                List<SelectListItem> listaPerSelectMultipla = new List<SelectListItem>();
+
+                foreach (Ingrediente ingrediente in ingredientiInDB)
+                {
+                    SelectListItem opzioneSelectListItem = new SelectListItem() { Text = ingrediente.Name, Value = ingrediente.Id.ToString() };
+
+                    listaPerSelectMultipla.Add(opzioneSelectListItem);
+                }
+
                 PizzaCategoria modelloDellaView = new PizzaCategoria();
 
                 modelloDellaView.Pizza = new Pizza();
                 modelloDellaView.Categoria = categoriaInDB;
+                modelloDellaView.Ingredienti = listaPerSelectMultipla;
 
                 return View("Aggiungi", modelloDellaView);
             }
@@ -68,7 +83,19 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
                 {
                     List<Categoria> categoriaInDB = db.Categoria.ToList();
 
+                    List<Ingrediente> ingredientiInDB = db.Ingredienti.ToList();
+
+                    List<SelectListItem> listaPerSelectMultipla = new List<SelectListItem>();
+
+                    foreach (Ingrediente ingrediente in ingredientiInDB)
+                    {
+                        SelectListItem opzioneSelectListItem = new SelectListItem() { Text = ingrediente.Name, Value = ingrediente.Id.ToString() };
+
+                        listaPerSelectMultipla.Add(opzioneSelectListItem);
+                    }
+
                     NuovaPizza.Categoria = categoriaInDB;
+                    NuovaPizza.Ingredienti = listaPerSelectMultipla;
                 }
 
                 return View("Aggiungi", NuovaPizza);
@@ -76,6 +103,21 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
 
             using (PizzeriaContext db = new PizzeriaContext())
             {
+                if (NuovaPizza.IngredientiSelect != null)
+                {
+                    NuovaPizza.Pizza.Ingredienti = new List<Ingrediente>();
+
+                    foreach (string ingredienteId in NuovaPizza.IngredientiSelect)
+                    {
+                        int IngredientiIdInt = int.Parse(ingredienteId);
+
+                        Ingrediente ingrediente = db.Ingredienti
+                            .Where(ingredienteInDb => ingredienteInDb.Id == IngredientiIdInt)
+                        .FirstOrDefault();
+
+                        NuovaPizza.Pizza.Ingredienti.Add(ingrediente);
+                    }
+                }
                 db.Pizza.Add(NuovaPizza.Pizza);
                 db.SaveChanges();
             }
