@@ -28,6 +28,7 @@ namespace LaMiaPizzeriaEFRelazione1n.Models
         public string Image { get; set; }
 
         [Column(TypeName = "decimal(6,2)")]
+        [Range(0.01,9999.99, ErrorMessage ="il prezzo non può essere minore di 0")]
         [Required(ErrorMessage = "Il campo del prezzo è obbligatorio")]
         public double Price { get; set; }
 
