@@ -12,7 +12,6 @@ using System.Diagnostics;
 
 namespace LaMiaPizzeriaEFRelazione1n.Controllers
 {
-    [Authorize]
     public class PizzaController : Controller
     {
 
@@ -48,6 +47,7 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
 
         //AGGIUNGI
         [HttpGet]
+        [Authorize]
         public IActionResult Aggiungi()
         {
             using (PizzeriaContext db = new PizzeriaContext())
@@ -78,6 +78,7 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult Aggiungi(PizzaCategoria NuovaPizza)
         {
             if (!ModelState.IsValid)
@@ -131,6 +132,7 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
 
         //MODIFICA
         [HttpGet]
+        [Authorize]
         public IActionResult Modifica(int id)
         {
             using (PizzeriaContext db = new PizzeriaContext())
@@ -170,6 +172,7 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult Modifica(PizzaCategoria PizzaModificata)
         {
             if (!ModelState.IsValid)
@@ -230,6 +233,7 @@ namespace LaMiaPizzeriaEFRelazione1n.Controllers
         //ELIMINARE
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult Elimina(int id)
         {
             using (PizzeriaContext db = new PizzeriaContext())
