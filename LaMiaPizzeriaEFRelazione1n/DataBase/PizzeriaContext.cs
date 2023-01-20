@@ -1,10 +1,12 @@
 ﻿using Azure;
 using LaMiaPizzeriaEFRelazione1n.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace LaMiaPizzeriaEFRelazione1n.DataBase
 {
-    public class PizzeriaContext : DbContext
+    public class PizzeriaContext : IdentityDbContext<IdentityUser>
     {
         public DbSet<Pizza> Pizza { get; set; }
         public DbSet<Categoria> Categoria { get; set; }
