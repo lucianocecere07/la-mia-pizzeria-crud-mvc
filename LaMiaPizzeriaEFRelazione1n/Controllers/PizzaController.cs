@@ -1,6 +1,7 @@
 ﻿using Azure;
 using LaMiaPizzeriaEFRelazione1n.DataBase;
 using LaMiaPizzeriaEFRelazione1n.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using System.Diagnostics;
 
 namespace LaMiaPizzeriaEFRelazione1n.Controllers
 {
+    [Authorize]
     public class PizzaController : Controller
     {
 
